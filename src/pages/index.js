@@ -28,11 +28,21 @@ import PropTypes from 'prop-types'
 
 const Shadow = styled(tag)`
   position: relative;
-  min-height: ${props => 214 + (parseInt(props.top) < 0 ? parseInt(props.top) : 0) + (!props.top && parseInt(props.bottom) < 0 ? parseInt(props.bottom) : 0)}px;
-  ${props => props.top && parseInt(props.top) < 0 && `
+  min-height: ${props =>
+    214 +
+    (parseInt(props.top) < 0 ? parseInt(props.top) : 0) +
+    (!props.top && parseInt(props.bottom) < 0 ? parseInt(props.bottom) : 0)}px;
+  ${props =>
+    props.top &&
+    parseInt(props.top) < 0 &&
+    `
     margin-top: ${-parseInt(props.top)}px;
   `}
-  ${props => !props.top && props.bottom && parseInt(props.bottom) < 0 && `
+  ${props =>
+    !props.top &&
+    props.bottom &&
+    parseInt(props.bottom) < 0 &&
+    `
     margin-bottom: ${-parseInt(props.bottom)}px;
   `}
   
@@ -43,7 +53,10 @@ const Shadow = styled(tag)`
     ${props => props.left && `left: ${props.left};`}
     content: '';
     display: block;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='415' height='214'%3E%3Cpath fill='${props => encodeURIComponent(props.color)}' fill-rule='nonzero' d='M5.6 11.21l5.6-5.6L5.6 0 0 5.6l5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zM28.02 11.21l5.6-5.6L28.02 0l-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zM50.43 11.21l5.6-5.6L50.44 0l-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zM72.85 11.21l5.6-5.6L72.85 0l-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zM95.26 11.21l5.6-5.6L95.27 0l-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.42-201.79l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.41-201.79l5.6-5.6L140.1 0l-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.42-201.79l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.41-201.79l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.42-201.79l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.41-201.79l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm23-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm23-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22-201l5.61-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.61-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm23-201l5.61-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.61-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6z' opacity='.4'/%3E%3C/svg%3E") no-repeat;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='415' height='214'%3E%3Cpath fill='${props =>
+      encodeURIComponent(
+        props.color
+      )}' fill-rule='nonzero' d='M5.6 11.21l5.6-5.6L5.6 0 0 5.6l5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zM28.02 11.21l5.6-5.6L28.02 0l-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zM50.43 11.21l5.6-5.6L50.44 0l-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zM72.85 11.21l5.6-5.6L72.85 0l-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zM95.26 11.21l5.6-5.6L95.27 0l-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.42-201.79l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.41-201.79l5.6-5.6L140.1 0l-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.42-201.79l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.41-201.79l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.42-201.79l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.43l5.6-5.61-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22.42l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22.41-201.79l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm23-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm23-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22-201l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.6-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm22-201l5.61-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.61-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm23-201l5.61-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.61-5.6-5.6-5.61-5.6 5.6 5.6 5.61zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 23l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6zm0 22l5.61-5.6-5.6-5.6-5.6 5.6 5.6 5.6z' opacity='.4'/%3E%3C/svg%3E") no-repeat;
     position: absolute;
     width: 415px;
     height: 214px;
@@ -57,7 +70,7 @@ Shadow.defaultProps = {
 
 const List = styled(Flex)`
   &:after {
-    content: "";
+    content: '';
     flex: auto;
   }
 `
@@ -240,7 +253,7 @@ const titleByType = {
   development: 'Разработка',
 }
 
-function plural (number, strings) {
+function plural(number, strings) {
   number %= 100
 
   if (number > 10 && number < 20) {
@@ -252,6 +265,8 @@ function plural (number, strings) {
   return strings[number > 1 && number < 5 ? 1 : number === 1 ? 0 : 2]
 }
 
+const DAT_URL = 'dat://348e7e42989ba4eb4f407f56198c962f925284a152c070fcc94ca3cc78e9116a';
+
 class IndexPage extends Component {
   static propTypes = {
     data: PropTypes.any,
@@ -259,45 +274,99 @@ class IndexPage extends Component {
 
   input = React.createRef()
 
-  render () {
+  constructor(props) {
+    super(props);
+    this.state = {
+      comments: [],
+      mainArchive: {}
+    };
+  }
+
+  updateComments() {
+    const archive = this.state.mainArchive;
+    if (archive.readdir) {
+      archive.readdir('/comments').then(commentsList => {
+        console.log(commentsArray);
+          let commentsArray = commentsList.map(async function(singleNoteName) {
+              const note = await archive.readFile(
+                  `/comments/${singleNoteName}`
+              );
+              return JSON.parse(note);
+          });
+
+          Promise.all(commentsArray).then(comments => {
+              this.setState({ comments })
+          });
+      });
+    }
+  }
+
+  componentDidMount() {
+    const archive = new DatArchive(DAT_URL); // eslint-disable-line no-undef
+    this.setState({ mainArchive: archive });
+    setTimeout(() => {
+      this.updateComments();
+    }, 100)
+  }
+
+  getParticularComments(lecturer) {
+    const lecturersComments = this.state.comments.filter(singleComment => {
+      return singleComment.origin === lecturer.name;
+    });
+    
+    return lecturersComments.length;
+  }
+
+  async handleAddComment(lecturer, event) {
+    event.preventDefault();
+    await this.state.mainArchive.writeFile(`/comments/comment-${new Date().getTime()}`, JSON.stringify({
+      "origin": lecturer.name,
+      "text": "Some comment",
+      "author": "Some person"
+    }));
+    this.updateComments();
+  }
+
+  async handleAuthorize(event) {
+    event.preventDefault();
+    const archive = await DatArchive.create({ // eslint-disable-line no-undef
+      title: 'KrvDevDays Comments And Likes',
+      description: 'Your personal data for comments and likes',
+      prompt: true
+    });
+    await archive.mkdir('/comments');
+    await archive.mkdir('/likes');
+
+    this.setState({ mainArchive: archive });
+  }
+
+  render() {
     let {data} = this.props
     return (
-      <ThemeProvider theme={{
-        breakpoints: ['375px', '438px', '568px', '639px', '768px', '1024px', '1170px'],
-      }}>
+      <ThemeProvider
+        theme={{
+          breakpoints: [
+            '375px',
+            '438px',
+            '568px',
+            '639px',
+            '768px',
+            '1024px',
+            '1170px',
+          ],
+        }}
+      >
         <Layout>
           <Helmet>
-            <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover' />
-            <script type='text/javascript'
-                    async='async'
-                    defer='defer'
-                    charSet='UTF-8'
-                    src='https://timepad.ru/js/tpwf/loader/min/loader.js'
-                    data-timepad-customized='22110'
-                    data-timepad-widget-v2='event_register'>
-              {
-                `(function(){
-              if(window.timepadWidget) {
-                return {}
-              }
-
-              window.timepadWidget = true;
-              return {
-                "event": {
-                  "id": "763050"
-                },
-                "hidePreloading": true,
-                "display": "popup",
-                "popup": {
-                  "autoShrink": true,
-                  "triggerSelector": ".buy-ticket"
-                }
-              }
-            })();`
-              }
-            </script>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+            />
           </Helmet>
-          <SafeAreaBox position='relative' minHeight={`${data.backgroundFirst.childImageSharp.fixed.height}px`}>
+          <SafeAreaBox
+            position="relative"
+            minHeight={`${data.backgroundFirst.childImageSharp.fixed.height}px`}
+          >
             <Image
               fixed={data.backgroundFirst.childImageSharp.fixed}
               style={{
@@ -310,52 +379,120 @@ class IndexPage extends Component {
                 background: 'white',
               }}
             />
-            <Container is='section'>
+            <Container is="section">
               <Flex
-                justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-start', 'flex-start', 'flex-start', 'space-between']}
-                flexDirection={['column', 'column', 'column', 'column', 'column', 'column', 'row']}
+                justifyContent={[
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'space-between',
+                ]}
+                flexDirection={[
+                  'column',
+                  'column',
+                  'column',
+                  'column',
+                  'column',
+                  'column',
+                  'row',
+                ]}
                 pt={['0px', '0px', '0px', '0px', '0px', '0px', '120px']}
-                alignItems={['stretch', 'stretch', 'stretch', 'stretch', 'stretch', 'stretch', 'flex-start']}
+                alignItems={[
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'flex-start',
+                ]}
               >
-                <Box mt={['40px', '40px', '40px', '40px', '40px', '40px', '0px']}>
-                  <Shadow top='-40px' left='-200px'>
+                <Box
+                  mt={['40px', '40px', '40px', '40px', '40px', '40px', '0px']}
+                >
+                  <Shadow top="-40px" left="-200px">
                     <Heading
-                      is='h1'
+                      is="h1"
                       maxWidth={['none', 'none', 'none', 'none', '620px']}
                       fontSize={['27px', '33px', '39px', '48px']}
                       lineHeight={['40px', '48px', '57px', '70px']}
-                      letterSpacing='0.125em'
-                      fontWeight='900'
+                      letterSpacing="0.125em"
+                      fontWeight="900"
                     >
                       Ежегодная конференция разработчиков Краснодара и края
                     </Heading>
+                    <Heading
+                      is="h6"
+                      maxWidth={['none', 'none', 'none', 'none', '620px']}
+                      fontSize={['12px', '15px', '17px', '29px']}
+                      letterSpacing="0.125em"
+                      fontWeight="900"
+                    >
+                      {DAT_URL}
+                    </Heading>
                   </Shadow>
                 </Box>
-                <Flex flexDirection='column'
-                      alignItems={['stretch', 'stretch', 'stretch', 'stretch', 'stretch', 'stretch', 'flex-end']}>
+                <Flex
+                  flexDirection="column"
+                  alignItems={[
+                    'stretch',
+                    'stretch',
+                    'stretch',
+                    'stretch',
+                    'stretch',
+                    'stretch',
+                    'flex-end',
+                  ]}
+                >
                   <BorderedBox
-                    flex={['0 1 auto', '0 1 auto', '0 1 auto', '0 1 auto', '0 1 auto', '0 1 auto', '0 0 auto']}
-                    p='20px'
-                    boxShadow='-10px 10px 0 #B07EC5'
+                    flex={[
+                      '0 1 auto',
+                      '0 1 auto',
+                      '0 1 auto',
+                      '0 1 auto',
+                      '0 1 auto',
+                      '0 1 auto',
+                      '0 0 auto',
+                    ]}
+                    p="20px"
+                    boxShadow="-10px 10px 0 #B07EC5"
                     mt={['40px', '40px', '40px', '40px', '40px', '40px', '0px']}
                     itemScope
-                    itemType='http://schema.org/Event'
+                    itemType="http://schema.org/Event"
                   >
                     <Text
                       fontSize={['28px', '34px']}
-                      letterSpacing='0.125em'
+                      letterSpacing="0.125em"
                       lineHeight={['36px', '44px']}
-                      fontWeight='900'
-                      maxWidth={['none', 'none', 'none', 'none', 'none', 'none', '280px']}
-                      itemProp='name'
+                      fontWeight="900"
+                      maxWidth={[
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        '280px',
+                      ]}
+                      itemProp="name"
                     >
                       Krasnodar Dev Days #3
                     </Text>
-                    <meta itemProp='description' content='Ежегодная конференция разработчиков Краснодара и края' />
-                    <div itemProp='offers' itemScope itemType='http://schema.org/AggregateOffer'>
-                      <meta itemProp='lowPrice' content='1500' />
-                      <meta itemProp='highPrice' content='2500' />
-                      <meta itemProp='priceCurrency' content='RUB' />
+                    <meta
+                      itemProp="description"
+                      content="Ежегодная конференция разработчиков Краснодара и края"
+                    />
+                    <div
+                      itemProp="offers"
+                      itemScope
+                      itemType="http://schema.org/AggregateOffer"
+                    >
+                      <meta itemProp="lowPrice" content="1500" />
+                      <meta itemProp="highPrice" content="2500" />
+                      <meta itemProp="priceCurrency" content="RUB" />
                     </div>
                     {[
                       {
@@ -368,12 +505,27 @@ class IndexPage extends Component {
                       {
                         content: (
                           <Fragment>
-                            <meta itemProp='name' content='Бизнес-центр Меркурий' />
-                            <span itemProp='address' itemScope itemType='http://schema.org/PostalAddress'>
-                        <span itemProp='streetAddress'>ул. Трамвайная 2/6</span>
-                        <meta itemProp='addressLocality' content='Краснодар' />
-                        <meta itemProp='addressRegion' content='Краснодарский край' />
-                        </span>
+                            <meta
+                              itemProp="name"
+                              content="Бизнес-центр Меркурий"
+                            />
+                            <span
+                              itemProp="address"
+                              itemScope
+                              itemType="http://schema.org/PostalAddress"
+                            >
+                              <span itemProp="streetAddress">
+                                ул. Трамвайная 2/6
+                              </span>
+                              <meta
+                                itemProp="addressLocality"
+                                content="Краснодар"
+                              />
+                              <meta
+                                itemProp="addressRegion"
+                                content="Краснодарский край"
+                              />
+                            </span>
                           </Fragment>
                         ),
                         props: {
@@ -383,14 +535,19 @@ class IndexPage extends Component {
                         },
                       },
                     ].map(({content, props}, key) => (
-                      <Flex alignItems='center' mt='20px' key={key}>
-                        <Box display={['none', 'none', 'none', 'block']} mr='30px' bg='#252525' height='3px'
-                             flex='0 0 60px'
-                             width='60px' />
+                      <Flex alignItems="center" mt="20px" key={key}>
+                        <Box
+                          display={['none', 'none', 'none', 'block']}
+                          mr="30px"
+                          bg="#252525"
+                          height="3px"
+                          flex="0 0 60px"
+                          width="60px"
+                        />
                         <Text
                           fontSize={['24px']}
                           lineHeight={['29px']}
-                          fontWeight='900'
+                          fontWeight="900"
                           {...props}
                         >
                           {content}
@@ -399,92 +556,147 @@ class IndexPage extends Component {
                     ))}
                   </BorderedBox>
                   <Button
-                    display={['none', 'none', 'none', 'none', 'none', 'none', 'block']}
-                    is='a'
-                    href='https://krddevdays.timepad.ru/event/763050/'
-                    target='_blank'
-                    mt='80px'
-                    className='buy-ticket'
+                    display={[
+                      'none',
+                      'none',
+                      'none',
+                      'none',
+                      'none',
+                      'none',
+                      'block',
+                    ]}
+                    onClick={this.handleAuthorize.bind(this)}
+                    target="_blank"
+                    mt="80px"
                   >
-                    Купить билет
+                    Авторизоваться
                   </Button>
                 </Flex>
               </Flex>
-              <BorderedBox p='10px 20px' mt='40px'>
+              <BorderedBox p="10px 20px" mt="40px">
                 <Flex
-                  justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-start', 'flex-start', 'space-between']}
-                  flexWrap='wrap'
+                  justifyContent={[
+                    'flex-start',
+                    'flex-start',
+                    'flex-start',
+                    'flex-start',
+                    'flex-start',
+                    'space-between',
+                  ]}
+                  flexWrap="wrap"
                 >
-                  {
-                    [
-                      {
-                        title: '2 потока',
-                        description: '// каждый найдет доклад по интересам',
-                      },
-                      {
-                        title: 'круглый стол',
-                        description: '// открытые дискуссии на любые темы',
-                      },
-                      {
-                        title: '350 участников',
-                        description: '// прекрасная возможность найти единомышленников',
-                      },
-                    ].map(({title, description}, key) => (
-                      <Flex flexDirection='column' width={['auto', 'auto', 'auto', 'auto', 'auto', '49%', '33%']}
-                            key={key}
-                            my='10px'>
-                        <Flex alignItems='center'>
-                          <Box display={['none', 'none', 'none', 'block']} mr='30px' bg='#252525' height='3px'
-                               flex='0 0 60px'
-                               width='60px' />
-                          <Text
-                            fontSize={['24px']}
-                            lineHeight={['29px']}
-                            fontWeight='900'
-                          >
-                            {title}
-                          </Text>
-                        </Flex>
+                  {[
+                    {
+                      title: '2 потока',
+                      description: '// каждый найдет доклад по интересам',
+                    },
+                    {
+                      title: 'круглый стол',
+                      description: '// открытые дискуссии на любые темы',
+                    },
+                    {
+                      title: '350 участников',
+                      description:
+                        '// прекрасная возможность найти единомышленников',
+                    },
+                  ].map(({title, description}, key) => (
+                    <Flex
+                      flexDirection="column"
+                      width={[
+                        'auto',
+                        'auto',
+                        'auto',
+                        'auto',
+                        'auto',
+                        '49%',
+                        '33%',
+                      ]}
+                      key={key}
+                      my="10px"
+                    >
+                      <Flex alignItems="center">
+                        <Box
+                          display={['none', 'none', 'none', 'block']}
+                          mr="30px"
+                          bg="#252525"
+                          height="3px"
+                          flex="0 0 60px"
+                          width="60px"
+                        />
                         <Text
-                          fontSize='16px'
-                          lineHeight='22px'
-                          fontWeight='500'
-                          mt='20px'
+                          fontSize={['24px']}
+                          lineHeight={['29px']}
+                          fontWeight="900"
                         >
-                          {description}
+                          {title}
                         </Text>
                       </Flex>
-                    ))
-                  }
+                      <Text
+                        fontSize="16px"
+                        lineHeight="22px"
+                        fontWeight="500"
+                        mt="20px"
+                      >
+                        {description}
+                      </Text>
+                    </Flex>
+                  ))}
                 </Flex>
               </BorderedBox>
               <Button
-                display={['inline-block', 'inline-block', 'inline-block', 'inline-block', 'inline-block', 'inline-block', 'none']}
-                is='a'
-                href='https://krddevdays.timepad.ru/event/763050/'
-                target='_blank'
-                mt='40px'
-                className='buy-ticket'
+                display={[
+                  'inline-block',
+                  'inline-block',
+                  'inline-block',
+                  'inline-block',
+                  'inline-block',
+                  'inline-block',
+                  'none',
+                ]}
+                onClick={this.handleAuthorize.bind(this)}
+                target="_blank"
+                mt="40px"
               >
-                Купить билет
+                Авторизоваться
               </Button>
             </Container>
-            <Container is='section' id='topics'>
+            <Container is="section" id="topics">
               <Flex
-                justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-start', 'flex-start', 'space-between']}
-                flexDirection={['column', 'column', 'column', 'column', 'column', 'row']}
+                justifyContent={[
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'space-between',
+                ]}
+                flexDirection={[
+                  'column',
+                  'column',
+                  'column',
+                  'column',
+                  'column',
+                  'row',
+                ]}
                 mt={['80px']}
-                alignItems={['stretch', 'stretch', 'stretch', 'stretch', 'stretch', 'flex-start']}
+                alignItems={[
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'flex-start',
+                ]}
               >
                 <Box>
-                  <Shadow top='-40px' left='-200px'>
+                  <Shadow top="-40px" left="-200px">
                     <Heading
-                      is='h2'
+                      is="h2"
                       fontSize={['27px', '33px', '39px', '48px']}
                       lineHeight={['40px', '48px', '57px', '70px']}
-                      letterSpacing='0.125em'
-                      fontWeight='900'
-                      mb='40px'
+                      letterSpacing="0.125em"
+                      fontWeight="900"
+                      mb="40px"
                     >
                       Доклады
                     </Heading>
@@ -492,79 +704,108 @@ class IndexPage extends Component {
                 </Box>
               </Flex>
               <List
-                justifyContent={['stretch', 'stretch', 'stretch', 'stretch', 'stretch', 'space-between']}
-                flexWrap='wrap'
-                mt='40px'
-                mx='-10px'
+                justifyContent={[
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'space-between',
+                ]}
+                flexWrap="wrap"
+                mt="40px"
+                mx="-10px"
               >
                 {topics.map(({title, type, lecturer, link}, key) => (
                   <Flex
                     key={key}
-                    width={['100%', '100%', '100%', '100%', '100%', '50%', '33.3333333333%']}
-                    mb='40px'
-                    px='10px'
+                    width={[
+                      '100%',
+                      '100%',
+                      '100%',
+                      '100%',
+                      '100%',
+                      '50%',
+                      '33.3333333333%',
+                    ]}
+                    mb="40px"
+                    px="10px"
                   >
-                    <BorderedBox width='100%'>
-                      <Flex flexDirection='column'>
+                    <BorderedBox width="100%">
+                      <Flex flexDirection="column">
                         <Text
-                          height={['auto', 'auto', 'auto', 'auto', 'auto', `${37 * 4}px`]}
-                          px='14px'
-                          mt='14px'
-                          fontSize='24px'
-                          lineHeight='37px'
-                          fontWeight='900'
+                          height={[
+                            'auto',
+                            'auto',
+                            'auto',
+                            'auto',
+                            'auto',
+                            `${37 * 4}px`,
+                          ]}
+                          px="14px"
+                          mt="14px"
+                          fontSize="24px"
+                          lineHeight="37px"
+                          fontWeight="900"
                         >
                           {title}
                         </Text>
-                        <Flex my='14px' mx='14px' alignItems='flex-start' height='46px'>
+                        <Flex
+                          my="14px"
+                          mx="14px"
+                          alignItems="flex-start"
+                          height="46px"
+                        >
                           <Avatar
                             title={titleByType[type]}
-                            fixed={data[imageByTypeAndGender[type][lecturer.gender]].childImageSharp.fixed}
-                            mr='20px'
+                            fixed={
+                              data[imageByTypeAndGender[type][lecturer.gender]]
+                                .childImageSharp.fixed
+                            }
+                            mr="20px"
                           />
-                          <Box alignSelf='center'>
-                            <Flex flexDirection='column'>
+                          <Box alignSelf="center">
+                            <Flex flexDirection="column">
                               <Text
-                                fontSize='18px'
-                                lineHeight='22px'
-                                fontWeight='500'
+                                fontSize="18px"
+                                lineHeight="22px"
+                                fontWeight="500"
                               >
                                 {lecturer.name}
                               </Text>
-                              {
-                                lecturer.company &&
+                              {lecturer.company && (
                                 <Text
-                                  mt='5px'
-                                  fontSize='16px'
-                                  lineHeight='19px'
-                                  fontWeight='400'
+                                  mt="5px"
+                                  fontSize="16px"
+                                  lineHeight="19px"
+                                  fontWeight="400"
                                 >
                                   {lecturer.company}
                                 </Text>
-                              }
+                              )}
                               <Text
-                                fontSize='16px'
-                                lineHeight='28px'
-                                fontWeight='500'
+                                fontSize="16px"
+                                lineHeight="28px"
+                                fontWeight="500"
                               >
-                                Likes: 1 / Comments: 2
+                                Likes: 1 / Comments: {this.getParticularComments(lecturer)}
+                                <a onClick={this.handleAddComment.bind(this, lecturer)}>+</a>
                               </Text>
                             </Flex>
                           </Box>
                         </Flex>
-                        {
-                          link &&
+                        {link && (
                           <Button
-                            is='a'
+                            is="a"
                             href={link}
-                            target='_blank'
-                            ml='-6px'
-                            mr='-6px'
-                            mb='-6px'
+                            target="_blank"
+                            ml="-6px"
+                            mr="-6px"
+                            mb="-6px"
                           >
                             Подробнее
                           </Button>
-                        }
+                        )}
                       </Flex>
                     </BorderedBox>
                   </Flex>
@@ -572,7 +813,11 @@ class IndexPage extends Component {
               </List>
             </Container>
           </SafeAreaBox>
-          <SafeAreaBox position='relative' minHeight={`${data.backgroundSecond.childImageSharp.fixed.height}px`}>
+          <SafeAreaBox
+            position="relative"
+            minHeight={`${data.backgroundSecond.childImageSharp.fixed
+              .height}px`}
+          >
             <Image
               fixed={data.backgroundSecond.childImageSharp.fixed}
               style={{
@@ -585,32 +830,65 @@ class IndexPage extends Component {
                 background: 'white',
               }}
             />
-            <Container is='section' id='round-table'>
+            <Container is="section" id="round-table">
               <Flex
-                justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-start', 'flex-start', 'flex-start', 'space-between']}
-                flexDirection={['column', 'column', 'column', 'column', 'column', 'column', 'row']}
+                justifyContent={[
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'flex-start',
+                  'space-between',
+                ]}
+                flexDirection={[
+                  'column',
+                  'column',
+                  'column',
+                  'column',
+                  'column',
+                  'column',
+                  'row',
+                ]}
                 mt={['80px']}
               >
                 <Box>
-                  <Shadow top='-40px' left='-200px'>
+                  <Shadow top="-40px" left="-200px">
                     <Heading
-                      is='h2'
+                      is="h2"
                       fontSize={['27px', '33px', '39px', '48px']}
                       lineHeight={['40px', '48px', '57px', '70px']}
-                      letterSpacing='0.125em'
-                      fontWeight='900'
-                      mb='40px'
+                      letterSpacing="0.125em"
+                      fontWeight="900"
+                      mb="40px"
                     >
                       Круглый стол
                     </Heading>
                   </Shadow>
                 </Box>
-                <Box display={['none', 'none', 'none', 'none', 'none', 'none', 'block']}>
-                  <Box mr='20px' mt='20px' width='70px' bg='#252525' height='3px' style={{float: 'left'}} />
+                <Box
+                  display={[
+                    'none',
+                    'none',
+                    'none',
+                    'none',
+                    'none',
+                    'none',
+                    'block',
+                  ]}
+                >
+                  <Box
+                    mr="20px"
+                    mt="20px"
+                    width="70px"
+                    bg="#252525"
+                    height="3px"
+                    style={{float: 'left'}}
+                  />
                   <Text
                     fontSize={['28px']}
                     lineHeight={['44px']}
-                    fontWeight='500'
+                    fontWeight="500"
                   >
                     Подай тему,<br />
                     найди единомышленников,<br />
@@ -620,166 +898,190 @@ class IndexPage extends Component {
               </Flex>
               <FirestoreProvider firebase={firebase}>
                 <List
-                  justifyContent={['stretch', 'stretch', 'stretch', 'stretch', 'stretch', 'space-between']}
-                  flexWrap='wrap'
-                  mt='40px'
-                  mx='-10px'
+                  justifyContent={[
+                    'stretch',
+                    'stretch',
+                    'stretch',
+                    'stretch',
+                    'stretch',
+                    'space-between',
+                  ]}
+                  flexWrap="wrap"
+                  mt="40px"
+                  mx="-10px"
                 >
                   <FirestoreCollection
-                    path='kdd3-round-table'
-                    sort='createdAt'
-                    filter={[
-                      [
-                        'deletedAt',
-                        '==',
-                        null,
-                      ],
-                    ]}
-                    render={({isLoading, data}) => (
+                    path="kdd3-round-table"
+                    sort="createdAt"
+                    filter={[['deletedAt', '==', null]]}
+                    render={({isLoading, data}) =>
                       !isLoading &&
                       data.map(({id, authorUid, title, author}, key) => (
                         <Flex
                           key={key}
-                          width={['100%', '100%', '100%', '100%', '100%', '50%', '33.3333333333%']}
-                          mb='40px'
-                          px='10px'
+                          width={[
+                            '100%',
+                            '100%',
+                            '100%',
+                            '100%',
+                            '100%',
+                            '50%',
+                            '33.3333333333%',
+                          ]}
+                          mb="40px"
+                          px="10px"
                         >
-                          <BorderedBox width='100%'>
-                            <Flex flexDirection='column'>
+                          <BorderedBox width="100%">
+                            <Flex flexDirection="column">
                               <Text
-                                height={['auto', 'auto', 'auto', 'auto', 'auto', `${37 * 6}px`]}
+                                height={[
+                                  'auto',
+                                  'auto',
+                                  'auto',
+                                  'auto',
+                                  'auto',
+                                  `${37 * 6}px`,
+                                ]}
                                 style={{
                                   overflow: 'auto',
                                 }}
-                                px='14px'
-                                my='14px'
-                                fontSize='24px'
-                                lineHeight='37px'
-                                fontWeight='900'
+                                px="14px"
+                                my="14px"
+                                fontSize="24px"
+                                lineHeight="37px"
+                                fontWeight="900"
                               >
                                 {title}
                               </Text>
                               <FirestoreCollection
                                 path={`kdd3-round-table/${id}/votes`}
-                                render={({isLoading, data: votes}) => (
-                                  !isLoading &&
-                                  <Flex px='14px' alignItems='center' height='54px'>
-                                    <Text
-                                      fontSize='28px'
-                                      lineHeight='42px'
-                                      fontWeight='900'
+                                render={({isLoading, data: votes}) =>
+                                  !isLoading && (
+                                    <Flex
+                                      px="14px"
+                                      alignItems="center"
+                                      height="54px"
                                     >
-                                      {votes.length}
-                                    </Text>
-                                    <Text
-                                      fontSize='16px'
-                                      lineHeight='19px'
-                                      fontWeight='400'
-                                      ml='10px'
-                                    >
-                                      {plural(votes.length, ['голос', 'голоса', 'голосов'])}
-                                    </Text>
-                                  </Flex>
-                                )} />
+                                      <Text
+                                        fontSize="28px"
+                                        lineHeight="42px"
+                                        fontWeight="900"
+                                      >
+                                        {votes.length}
+                                      </Text>
+                                      <Text
+                                        fontSize="16px"
+                                        lineHeight="19px"
+                                        fontWeight="400"
+                                        ml="10px"
+                                      >
+                                        {plural(votes.length, [
+                                          'голос',
+                                          'голоса',
+                                          'голосов',
+                                        ])}
+                                      </Text>
+                                    </Flex>
+                                  )}
+                              />
                             </Flex>
                           </BorderedBox>
                         </Flex>
-                      ))
-                    )}
+                      ))}
                   />
                 </List>
               </FirestoreProvider>
             </Container>
-            <Container is='section' id='tickets'>
+            <Container is="section" id="tickets">
               <Flex mt={['80px']}>
                 <Box>
-                  <Shadow color='#55E3CA' top='-40px' left='-200px'>
+                  <Shadow color="#55E3CA" top="-40px" left="-200px">
                     <Heading
-                      is='h2'
+                      is="h2"
                       fontSize={['27px', '33px', '39px', '48px']}
                       lineHeight={['40px', '48px', '57px', '70px']}
-                      letterSpacing='0.125em'
-                      fontWeight='900'
-                      mb='40px'
+                      letterSpacing="0.125em"
+                      fontWeight="900"
+                      mb="40px"
                     >
                       Сколько стоит билет?
                     </Heading>
                     <Text
                       fontSize={['24px', '24px', '28px']}
                       lineHeight={['30px', '30px', '34px']}
-                      fontWeight='500'
+                      fontWeight="500"
                     >
-                      <b>В стоимость билета входит питание:</b><br />
-                      фрукты, печенье, напитки (чай, кофе, морсы, сладкая и простая вода), комплексный обед.
+                      <b>В стоимость билета входит питание:</b>
+                      <br />
+                      фрукты, печенье, напитки (чай, кофе, морсы, сладкая и
+                      простая вода), комплексный обед.
                     </Text>
                   </Shadow>
                 </Box>
               </Flex>
-              <Flex mt='40px' justifyContent='space-between' flexWrap='wrap'>
-                {
-                  [
-                    {
-                      title: 'Ранняя пташка',
-                      price: '1500 ₽',
-                      description: '// 50 билетов',
-                      soldOut: true,
-                    },
-                    {
-                      title: 'Всё вовремя',
-                      price: '2000 ₽',
-                      description: '// до 1 сентября',
-                    },
-                    {
-                      title: 'Я все проспал',
-                      price: '2500 ₽',
-                    },
-                  ].map(({title, price, description, soldOut}, key) => (
-                    <Flex key={key}
-                          width={[1, 1, 1, 1, 1, 1 / 2, 1 / 3]}
-                          maxWidth={[]}
-                          flexDirection='column'
-                          py='40px'
-                          px='10px'
-                          opacity={soldOut ? 0.3 : 1}
+              <Flex mt="40px" justifyContent="space-between" flexWrap="wrap">
+                {[
+                  {
+                    title: 'Ранняя пташка',
+                    price: '1500 ₽',
+                    description: '// 50 билетов',
+                    soldOut: true,
+                  },
+                  {
+                    title: 'Всё вовремя',
+                    price: '2000 ₽',
+                    description: '// до 1 сентября',
+                  },
+                  {
+                    title: 'Я все проспал',
+                    price: '2500 ₽',
+                  },
+                ].map(({title, price, description, soldOut}, key) => (
+                  <Flex
+                    key={key}
+                    width={[1, 1, 1, 1, 1, 1 / 2, 1 / 3]}
+                    maxWidth={[]}
+                    flexDirection="column"
+                    py="40px"
+                    px="10px"
+                    opacity={soldOut ? 0.3 : 1}
+                  >
+                    <Text
+                      fontSize="48px"
+                      lineHeight="58px"
+                      letterSpacing="0.125em"
+                      fontWeight="500"
                     >
+                      {price}
+                    </Text>
+                    <Text
+                      mt={['10px', '10px', '10px', '10px', '10px', '40px']}
+                      fontSize="32px"
+                      lineHeight="39px"
+                      letterSpacing="0.125em"
+                      fontWeight="900"
+                    >
+                      {title}
+                    </Text>
+                    {description && (
                       <Text
-                        fontSize='48px'
-                        lineHeight='58px'
-                        letterSpacing='0.125em'
-                        fontWeight='500'
+                        mt="20px"
+                        fontSize="24px"
+                        lineHeight="30px"
+                        letterSpacing="0.125em"
+                        fontWeight="700"
                       >
-                        {price}
+                        {description}
                       </Text>
-                      <Text
-                        mt={['10px', '10px', '10px', '10px', '10px', '40px']}
-                        fontSize='32px'
-                        lineHeight='39px'
-                        letterSpacing='0.125em'
-                        fontWeight='900'
-                      >
-                        {title}
-                      </Text>
-                      {
-                        description &&
-                        <Text
-                          mt='20px'
-                          fontSize='24px'
-                          lineHeight='30px'
-                          letterSpacing='0.125em'
-                          fontWeight='700'
-                        >
-                          {description}
-                        </Text>
-                      }
-                    </Flex>
-                  ))
-                }
+                    )}
+                  </Flex>
+                ))}
               </Flex>
-              <Flex flexDirection='column'>
+              <Flex flexDirection="column">
                 <Text
                   fontSize={['24px']}
                   lineHeight={['34px']}
-                  fontWeight='500'
+                  fontWeight="500"
                 >
                   Билеты ничем не отличаются, кроме цены и количества.<br />
                   Вы можете купить любой билет на ваше усмотрение.
@@ -787,111 +1089,106 @@ class IndexPage extends Component {
               </Flex>
               <Flex>
                 <Button
-                  is='a'
-                  href='https://krddevdays.timepad.ru/event/763050/'
-                  target='_blank'
-                  mt='80px'
-                  className='buy-ticket'
+                  is="a"
+                  href="https://krddevdays.timepad.ru/event/763050/"
+                  target="_blank"
+                  mt="80px"
+                  className="buy-ticket"
                 >
                   Купить билет
                 </Button>
               </Flex>
             </Container>
-            <Container is='section'>
+            <Container is="section">
               <Flex mt={['80px']}>
                 <Box>
-                  <Shadow top='-40px' left='-200px' color='#55E3CA'>
+                  <Shadow top="-40px" left="-200px" color="#55E3CA">
                     <Heading
-                      is='h2'
+                      is="h2"
                       fontSize={['27px', '33px', '39px', '48px']}
                       lineHeight={['40px', '48px', '57px', '70px']}
-                      letterSpacing='0.125em'
-                      fontWeight='900'
+                      letterSpacing="0.125em"
+                      fontWeight="900"
                     >
                       Спонсоры и партнеры
                     </Heading>
                   </Shadow>
                 </Box>
               </Flex>
-              <Flex mt='40px'
-                    flexDirection='column'
-                    flexWrap='wrap'
-              >
+              <Flex mt="40px" flexDirection="column" flexWrap="wrap">
                 <Flex
-                  mb='48px'
+                  mb="48px"
                   flexWrap={['no-wrap', 'no-wrap', 'wrap']}
                   flexDirection={['column', 'column', 'row']}
-                  justifyContent='flex-start'
-                  alignItems='center'
+                  justifyContent="flex-start"
+                  alignItems="center"
                 >
                   <ImageLink
-                    width='256px'
+                    width="256px"
                     mr={['0px', '0px', '128px']}
-                    mb='48px'
-                    title='Avito'
-                    href='https://avito.ru'
+                    mb="48px"
+                    title="Avito"
+                    href="https://avito.ru"
                     src={avitoLogo}
                   />
                   <ImageLink
-                    width='256px'
-                    mb='48px'
-                    title='Первая Мониторинговая Компания'
-                    href='https://firstmk.ru' src={firstmkLogo}
+                    width="256px"
+                    mb="48px"
+                    title="Первая Мониторинговая Компания"
+                    href="https://firstmk.ru"
+                    src={firstmkLogo}
                   />
                 </Flex>
                 <Flex
                   flexWrap={['no-wrap', 'no-wrap', 'wrap']}
                   flexDirection={['column', 'column', 'row']}
-                  justifyContent='flex-start'
-                  alignItems='center'
+                  justifyContent="flex-start"
+                  alignItems="center"
                 >
                   <ImageLink
-                    width='160px'
+                    width="160px"
                     mr={['0px', '0px', '128px']}
-                    mb='48px'
-                    title='JetBrains'
-                    href='https://jetbrains.com'
+                    mb="48px"
+                    title="JetBrains"
+                    href="https://jetbrains.com"
                     src={jetbrainsLogo}
                   />
                   <ImageLink
-                    width='160px'
+                    width="160px"
                     mr={['0px', '0px', '128px']}
-                    mb='48px'
-                    title='Waliot'
-                    href='https://waliot.com'
+                    mb="48px"
+                    title="Waliot"
+                    href="https://waliot.com"
                     src={waliotLogo}
                   />
                   <ImageLink
-                    width='160px'
-                    mb='48px'
-                    title='Arkadium'
-                    href='https://www.arkadium.com'
+                    width="160px"
+                    mb="48px"
+                    title="Arkadium"
+                    href="https://www.arkadium.com"
                     src={arkadiumLogo}
                   />
                 </Flex>
               </Flex>
             </Container>
-            <Container is='section'>
+            <Container is="section">
               <Flex mt={['80px']}>
                 <Box>
-                  <Shadow top='-40px' left='-200px' color='#55E3CA'>
+                  <Shadow top="-40px" left="-200px" color="#55E3CA">
                     <Heading
-                      is='h2'
+                      is="h2"
                       fontSize={['27px', '33px', '39px', '48px']}
                       lineHeight={['40px', '48px', '57px', '70px']}
-                      letterSpacing='0.125em'
-                      fontWeight='900'
+                      letterSpacing="0.125em"
+                      fontWeight="900"
                     >
                       Как это было в прошлом году
                     </Heading>
                   </Shadow>
                 </Box>
               </Flex>
-              <Flex mt='40px'
-                    flexDirection='column'
-                    flexWrap='wrap'
-              >
-                <Box height={0} pb='56.25%' position='relative'>
+              <Flex mt="40px" flexDirection="column" flexWrap="wrap">
+                <Box height={0} pb="56.25%" position="relative">
                   <iframe
                     style={{
                       position: 'absolute',
@@ -900,69 +1197,73 @@ class IndexPage extends Component {
                       width: '100%',
                       height: '100%',
                     }}
-                    title='Видео Krasnodar Dev Days #2'
-                    width='560'
-                    height='315'
-                    src='https://www.youtube.com/embed/_YUUlmSZYuc?rel=0&amp;showinfo=0'
-                    frameBorder='0'
-                    allow='autoplay; encrypted-media'
+                    title="Видео Krasnodar Dev Days #2"
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/_YUUlmSZYuc?rel=0&amp;showinfo=0"
+                    frameBorder="0"
+                    allow="autoplay; encrypted-media"
                     allowFullScreen
                   />
                 </Box>
               </Flex>
             </Container>
-            <Container is='section'>
+            <Container is="section">
               <Flex mt={['80px']}>
                 <Box>
-                  <Shadow top='-40px' left='-200px'>
+                  <Shadow top="-40px" left="-200px">
                     <Heading
-                      is='h2'
+                      is="h2"
                       fontSize={['27px', '33px', '39px', '48px']}
                       lineHeight={['40px', '48px', '57px', '70px']}
-                      letterSpacing='0.125em'
-                      fontWeight='900'
+                      letterSpacing="0.125em"
+                      fontWeight="900"
                     >
                       Остались вопросы?
                     </Heading>
                   </Shadow>
                 </Box>
               </Flex>
-              <Flex mt='40px'
-                    alignItems={['stretch', 'stretch', 'stretch', 'stretch', 'stretch', 'center']}
-                    flexDirection='column'
-                    flexWrap='wrap'
+              <Flex
+                mt="40px"
+                alignItems={[
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'stretch',
+                  'center',
+                ]}
+                flexDirection="column"
+                flexWrap="wrap"
               >
                 <Text
-                  is='a'
-                  href='tel:+79183628576'
+                  is="a"
+                  href="tel:+79183628576"
                   fontSize={['20px', '24px', '30px', '38px']}
                   lineHeight={['40px', '48px', '60px', '70px']}
-                  letterSpacing='0.125em'
-                  fontWeight='500'
+                  letterSpacing="0.125em"
+                  fontWeight="500"
                 >
                   +7 (918) 362-85-76
                 </Text>
                 <Text
-                  is='a'
-                  href='mailto:help@krddevdays.ru'
+                  is="a"
+                  href="mailto:help@krddevdays.ru"
                   fontSize={['20px', '24px', '30px', '38px']}
                   lineHeight={['40px', '48px', '60px', '70px']}
-                  letterSpacing='0.125em'
-                  fontWeight='500'
+                  letterSpacing="0.125em"
+                  fontWeight="500"
                 >
                   help@krddevdays.ru
                 </Text>
               </Flex>
             </Container>
           </SafeAreaBox>
-          <SafeAreaBox bg='#FAFAFA' mt='40px'>
-            <Container is='footer'>
-              <Flex height='150px' alignItems='center'>
-                <Text
-                  fontSize='18px'
-                  lineHeight='22px'
-                  fontWeight={500}
-                >
+          <SafeAreaBox bg="#FAFAFA" mt="40px">
+            <Container is="footer">
+              <Flex height="150px" alignItems="center">
+                <Text fontSize="18px" lineHeight="22px" fontWeight={500}>
                   Krasnodar Dev Days © 2018
                 </Text>
               </Flex>
@@ -977,76 +1278,92 @@ class IndexPage extends Component {
 export default IndexPage
 
 export const pageQuery = graphql`
-    query Image {
-        backgroundFirst: file(absolutePath: {regex: "/src\/pages\/background-first.png$/"}) {
-            childImageSharp {
-                fixed(width:1680) {
-                    ...GatsbyImageSharpFixed
-                }
-            }
+  query Image {
+    backgroundFirst: file(
+      absolutePath: {regex: "/src/pages/background-first.png$/"}
+    ) {
+      childImageSharp {
+        fixed(width: 1680) {
+          ...GatsbyImageSharpFixed
         }
-        backgroundSecond: file(absolutePath: {regex: "/src\/pages\/background-second.png$/"}) {
-            childImageSharp {
-                fixed(width:1680) {
-                    ...GatsbyImageSharpFixed
-                }
-            }
-        }
-        designMaleImage: file(absolutePath: {regex: "/src\/pages\/design-male.png/"}) {
-            childImageSharp {
-                fixed(width:40,height:40) {
-                    ...GatsbyImageSharpFixed
-                }
-            }
-        }
-        designFemaleImage: file(absolutePath: {regex: "/src\/pages\/design-female.png/"}) {
-            childImageSharp {
-                fixed(width:40,height:40) {
-                    ...GatsbyImageSharpFixed
-                }
-            }
-        }
-        QAMaleImage: file(absolutePath: {regex: "/src\/pages\/qa-male.png/"}) {
-            childImageSharp {
-                fixed(width:40,height:40) {
-                    ...GatsbyImageSharpFixed
-                }
-            }
-        }
-        QAFemaleImage: file(absolutePath: {regex: "/src\/pages\/qa-female.png/"}) {
-            childImageSharp {
-                fixed(width:40,height:40) {
-                    ...GatsbyImageSharpFixed
-                }
-            }
-        }
-        managementMaleImage: file(absolutePath: {regex: "/src\/pages\/management-male.png/"}) {
-            childImageSharp {
-                fixed(width:40,height:40) {
-                    ...GatsbyImageSharpFixed
-                }
-            }
-        }
-        managementFemaleImage: file(absolutePath: {regex: "/src\/pages\/management-female.png/"}) {
-            childImageSharp {
-                fixed(width:40,height:40) {
-                    ...GatsbyImageSharpFixed
-                }
-            }
-        }
-        developmentMaleImage: file(absolutePath: {regex: "/src\/pages\/development-male.png/"}) {
-            childImageSharp {
-                fixed(width:40,height:40) {
-                    ...GatsbyImageSharpFixed
-                }
-            }
-        }
-        developmentFemaleImage: file(absolutePath: {regex: "/src\/pages\/development-female.png/"}) {
-            childImageSharp {
-                fixed(width:40,height:40) {
-                    ...GatsbyImageSharpFixed
-                }
-            }
-        }
+      }
     }
+    backgroundSecond: file(
+      absolutePath: {regex: "/src/pages/background-second.png$/"}
+    ) {
+      childImageSharp {
+        fixed(width: 1680) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+    designMaleImage: file(
+      absolutePath: {regex: "/src/pages/design-male.png/"}
+    ) {
+      childImageSharp {
+        fixed(width: 40, height: 40) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+    designFemaleImage: file(
+      absolutePath: {regex: "/src/pages/design-female.png/"}
+    ) {
+      childImageSharp {
+        fixed(width: 40, height: 40) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+    QAMaleImage: file(absolutePath: {regex: "/src/pages/qa-male.png/"}) {
+      childImageSharp {
+        fixed(width: 40, height: 40) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+    QAFemaleImage: file(absolutePath: {regex: "/src/pages/qa-female.png/"}) {
+      childImageSharp {
+        fixed(width: 40, height: 40) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+    managementMaleImage: file(
+      absolutePath: {regex: "/src/pages/management-male.png/"}
+    ) {
+      childImageSharp {
+        fixed(width: 40, height: 40) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+    managementFemaleImage: file(
+      absolutePath: {regex: "/src/pages/management-female.png/"}
+    ) {
+      childImageSharp {
+        fixed(width: 40, height: 40) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+    developmentMaleImage: file(
+      absolutePath: {regex: "/src/pages/development-male.png/"}
+    ) {
+      childImageSharp {
+        fixed(width: 40, height: 40) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+    developmentFemaleImage: file(
+      absolutePath: {regex: "/src/pages/development-female.png/"}
+    ) {
+      childImageSharp {
+        fixed(width: 40, height: 40) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+  }
 `
