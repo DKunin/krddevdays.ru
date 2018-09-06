@@ -542,6 +542,13 @@ class IndexPage extends Component {
                                   {lecturer.company}
                                 </Text>
                               }
+                              <Text
+                                fontSize='16px'
+                                lineHeight='28px'
+                                fontWeight='500'
+                              >
+                                Likes: 1 / Comments: 2
+                              </Text>
                             </Flex>
                           </Box>
                         </Flex>

@@ -1,6 +1,4 @@
-.dat
 node_modules/
 .idea/
 .cache/
-public/
 .DS_Store
