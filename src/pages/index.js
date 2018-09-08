@@ -11,6 +11,7 @@ import jetbrainsLogo from './jetbrains-logo.svg'
 
 import Layout from '../components/Layout'
 import Flex from '../components/Flex'
+import Details from '../components/Details'
 import Box from '../components/Box'
 import Container from '../components/Container'
 import Heading from '../components/Heading'
@@ -265,7 +266,11 @@ function plural(number, strings) {
   return strings[number > 1 && number < 5 ? 1 : number === 1 ? 0 : 2]
 }
 
-const DAT_URL = 'dat://348e7e42989ba4eb4f407f56198c962f925284a152c070fcc94ca3cc78e9116a';
+let archives = {};
+
+function flatten(newArray, singleValue) {
+  return newArray.concat(singleValue)
+}
 
 class IndexPage extends Component {
   static propTypes = {
@@ -275,69 +280,293 @@ class IndexPage extends Component {
   input = React.createRef()
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
+      likes: [],
       comments: [],
-      mainArchive: {}
-    };
-  }
-
-  updateComments() {
-    const archive = this.state.mainArchive;
-    if (archive.readdir) {
-      archive.readdir('/comments').then(commentsList => {
-        console.log(commentsArray);
-          let commentsArray = commentsList.map(async function(singleNoteName) {
-              const note = await archive.readFile(
-                  `/comments/${singleNoteName}`
-              );
-              return JSON.parse(note);
-          });
-
-          Promise.all(commentsArray).then(comments => {
-              this.setState({ comments })
-          });
-      });
+      subscriptions: [],
+      mainArchive: {},
+      mainDatUrl: null,
+      name: null,
     }
   }
 
-  componentDidMount() {
-    const archive = new DatArchive(DAT_URL); // eslint-disable-line no-undef
-    this.setState({ mainArchive: archive });
+  async updateDatInfo() {
+    const allArchives = Array.from(new Set(this.state.subscriptions
+      .concat(this.state.mainDatUrl)))
+      .map(singleArchiveUrl => {
+        return archives[singleArchiveUrl]
+          ? archives[singleArchiveUrl]
+          : new DatArchive(singleArchiveUrl) // eslint-disable-line no-undef
+      });
+
+    const comments = await Promise.all(
+      allArchives.map(this.getComments)
+    ).then(allComms => {
+      return allComms.reduce(
+        flatten,
+        []
+      )
+    });
+    this.setState({comments})
+
+    const likes = await Promise.all(
+      allArchives.map(this.getLikes)
+    ).then(allComms => {
+      return allComms.reduce(
+        flatten,
+        []
+      )
+    });
+    this.setState({likes})
+  }
+
+  async getComments(singleArchive) {
+    return new Promise(async function(resolve) {
+      const files = await singleArchive.readdir('/comments');
+      let commentsArray = files.map(async function(singleNoteName) {
+        const fileName = `/comments/${singleNoteName}`;
+        const note = await singleArchive.readFile(fileName);
+        const theNote = JSON.parse(note);
+        theNote.fileName = fileName;
+        return theNote;
+      });
+      Promise.all(commentsArray).then(resolve)
+    })
+  }
+
+  async getLikes(singleArchive) {
+    return new Promise(async function(resolve) {
+      const files = await singleArchive.readdir('/likes');
+      let likesArray = files.map(async function(singleNoteName) {
+        const note = await singleArchive.readFile(`/likes/${singleNoteName}`)
+        return JSON.parse(note)
+      });
+      Promise.all(likesArray).then(resolve)
+    })
+  }
+
+  updateInfoState(archive) {
+    archive.readdir('/comments').then(commentsList => {
+      let commentsArray = commentsList.map(async function(singleNoteName) {
+        const note = await archive.readFile(`/comments/${singleNoteName}`)
+        return JSON.parse(note)
+      })
+
+      Promise.all(commentsArray).then(comments => {
+        this.setState({comments})
+      })
+    })
+
+    archive.readdir('/likes').then(likesList => {
+      let likesArray = likesList.map(async function(singleNoteName) {
+        const note = await archive.readFile(`/likes/${singleNoteName}`)
+        return JSON.parse(note)
+      })
+
+      Promise.all(likesArray).then(likes => {
+        this.setState({likes})
+      })
+    })
+  }
+
+  async componentDidMount() {
+    const mainUrl = localStorage.getItem('mainUrl');
+    const allData = new DatArchive('dat://8930c419cb331e147e392c8eb7b828a02eb73865729e6e6e5ce64cc047362d2e'); // eslint-disable-line no-undef
+    let links = JSON.parse(await allData.readFile(`/links.json`));
+
+    if (mainUrl) {
+      this.setMainDatUrl(mainUrl);
+    }
+
+
+    this.setState({ subscriptions: links });
+  }
+
+  async setMainDatUrl(datUrl) {
+    const archive = new DatArchive(datUrl) // eslint-disable-line no-undef
+    const info = await archive.getInfo()
+    let config = {
+      blocked: []
+    }
+    try {
+      config = JSON.parse(await archive.readFile('/config.json'));
+    } catch(err) {}
+
+    if (config.blocked.length) {
+      this.setState({
+        subscriptions: this.state.subscriptions.filter(singleSub => {
+          return !config.blocked.includes(singleSub);
+        })
+      })
+    }
+
+    this.setState({
+      mainArchive: archive,
+      mainDatUrl: archive.url,
+      name: info.description,
+    })
     setTimeout(() => {
-      this.updateComments();
+      this.updateDatInfo()
     }, 100)
   }
 
   getParticularComments(lecturer) {
     const lecturersComments = this.state.comments.filter(singleComment => {
-      return singleComment.origin === lecturer.name;
-    });
+      return singleComment.origin === lecturer.name
+    })
+
+    return lecturersComments.length
+  }
+
+  async handleRemoveComment({author, text, time, authorDat, fileName}, event) {
     
-    return lecturersComments.length;
+    event.preventDefault();
+    if (authorDat === this.state.mainDatUrl) {
+      const approveOfBlock = window.confirm('Вы уверены, что хотите удалить комментарий?');
+      if (approveOfBlock) { 
+        const archive = this.state.mainArchive;
+        await archive.unlink(fileName);
+
+      }
+    } else {
+      const approveOfBlock = window.confirm('Вы уверены, что хотите заблокировать автора?');
+      if (approveOfBlock) {
+        const archive = this.state.mainArchive;
+        let config = {
+          blocked: []
+        };
+        try {
+          config = JSON.parse(await archive.readFile('/config.json'));
+        } catch(err) {}
+        config.blocked = config.blocked.concat([authorDat]);
+        await archive.writeFile('/config.json', JSON.stringify(config));
+        window.location.reload();
+      }
+    }
+    setTimeout(() => {
+      this.updateDatInfo()
+    }, 100)
+  }
+
+  renderLecturerComments(lecturer) {
+    const lecturersComments = this.state.comments.filter(singleComment => {
+      return singleComment.origin === lecturer.name
+    });
+    return (
+      <div>
+        {lecturersComments
+            .map(({author, text, time, authorDat, fileName}, index) => {
+              return (
+                  <li key={time + index}>
+                    <strong><a className="author-link" href={authorDat}>{author}</a> <a className="remove-comment" onClick={this.handleRemoveComment.bind(this, {author, text, time, authorDat, fileName})}> ␡</a></strong>
+                    {text}
+                    <small>{time}</small>
+                  </li>
+                )
+            })}
+      </div>
+    );
   }
 
   async handleAddComment(lecturer, event) {
-    event.preventDefault();
-    await this.state.mainArchive.writeFile(`/comments/comment-${new Date().getTime()}`, JSON.stringify({
-      "origin": lecturer.name,
-      "text": "Some comment",
-      "author": "Some person"
-    }));
-    this.updateComments();
+    event.preventDefault()
+    const text = prompt('Введите Ваш комментарий', 'Отличный доклад');
+    if (!text) {
+      return;
+    }
+    await this.state.mainArchive.writeFile(
+      `/comments/comment-${new Date().getTime()}`,
+      JSON.stringify({
+        origin: lecturer.name,
+        text,
+        author: this.state.name,
+        authorDat: this.state.mainDatUrl,
+        time: new Date().toLocaleString(),
+      })
+    )
+    this.updateDatInfo()
   }
 
-  async handleAuthorize(event) {
-    event.preventDefault();
+  getParticularLikes(lecturer) {
+    const lecturersLikes = this.state.likes.filter(singleComment => {
+      return singleComment.origin === lecturer.name
+    })
+
+    return lecturersLikes.length
+  }
+
+  listLecturerLikes(lecturer) {
+    const lecturersLikes = this.state.likes.filter(singleComment => {
+      return singleComment.origin === lecturer.name
+    })
+
+    return lecturersLikes
+      .map(singleLike => {
+        return singleLike.author
+      })
+      .join('\n')
+  }
+
+  async handleAddLike(lecturer, event) {
+    event.preventDefault()
+    const fileName = `/likes/like-${btoa(encodeURIComponent(lecturer.name))}`
+    let fileStat
+    try {
+      fileStat = await this.state.mainArchive.stat(fileName)
+    } catch (err) {}
+    if (fileStat) {
+      await this.state.mainArchive.unlink(fileName)
+    } else {
+      await this.state.mainArchive.writeFile(
+        fileName,
+        JSON.stringify({
+          origin: lecturer.name,
+          author: this.state.name,
+        })
+      )
+    }
+    this.updateDatInfo()
+  }
+
+  async handleRegister(event) {
+    event.preventDefault()
     const archive = await DatArchive.create({ // eslint-disable-line no-undef
       title: 'KrvDevDays Comments And Likes',
-      description: 'Your personal data for comments and likes',
-      prompt: true
-    });
-    await archive.mkdir('/comments');
-    await archive.mkdir('/likes');
+      description: 'Введите Ваше имя',
+      prompt: true,
+    })
+    await archive.mkdir('/comments')
+    await archive.mkdir('/likes')
+    const info = await archive.getInfo()
+    this.setState({
+      mainArchive: archive,
+      mainDatUrl: archive.url,
+      name: info.description,
+    })
+  }
 
-    this.setState({ mainArchive: archive });
+  async handleAuth(event) {
+    event.preventDefault()
+    const archive = await DatArchive.selectArchive({ // eslint-disable-line no-undef
+      title: 'Выберите свой профиль',
+      buttonLabel: 'Выбрать',
+      filters: {
+        isOwner: true,
+      },
+    })
+
+    const info = await archive.getInfo()
+    this.setState({
+      mainArchive: archive,
+      mainDatUrl: archive.url,
+      name: info.description,
+    })
+    setTimeout(() => {
+      this.updateDatInfo()
+    }, 400)
+
+    localStorage.setItem('mainUrl', archive.url)
   }
 
   render() {
@@ -424,15 +653,6 @@ class IndexPage extends Component {
                     >
                       Ежегодная конференция разработчиков Краснодара и края
                     </Heading>
-                    <Heading
-                      is="h6"
-                      maxWidth={['none', 'none', 'none', 'none', '620px']}
-                      fontSize={['12px', '15px', '17px', '29px']}
-                      letterSpacing="0.125em"
-                      fontWeight="900"
-                    >
-                      {DAT_URL}
-                    </Heading>
                   </Shadow>
                 </Box>
                 <Flex
@@ -480,6 +700,31 @@ class IndexPage extends Component {
                       itemProp="name"
                     >
                       Krasnodar Dev Days #3
+                    </Text>
+                    <Text
+                      fontSize={['28px', '34px']}
+                      letterSpacing="0.125em"
+                      lineHeight={['36px', '44px']}
+                      fontWeight="900"
+                      maxWidth={[
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        '280px',
+                      ]}
+                      itemProp="name"
+                    >
+                      <a
+                        style={{ color: 'black', textDecoration: 'none' }}
+                        hidden={!this.state.name}
+                        href={this.state.mainDatUrl}
+                        title={this.state.mainDatUrl}
+                      >
+                        Участник: {this.state.name}
+                      </a>
                     </Text>
                     <meta
                       itemProp="description"
@@ -555,6 +800,22 @@ class IndexPage extends Component {
                       </Flex>
                     ))}
                   </BorderedBox>
+              <Button
+                display={[
+                  'none',
+                  'none',
+                  'none',
+                  'none',
+                  'none',
+                  'none',
+                  'block',
+                ]}
+                onClick={this.handleRegister.bind(this)}
+                target="_blank"
+                mt="40px"
+              >
+                Зарегистрироваться
+              </Button>
                   <Button
                     display={[
                       'none',
@@ -565,7 +826,7 @@ class IndexPage extends Component {
                       'none',
                       'block',
                     ]}
-                    onClick={this.handleAuthorize.bind(this)}
+                    onClick={this.handleAuth.bind(this)}
                     target="_blank"
                     mt="80px"
                   >
@@ -653,9 +914,26 @@ class IndexPage extends Component {
                   'inline-block',
                   'none',
                 ]}
-                onClick={this.handleAuthorize.bind(this)}
+                onClick={this.handleRegister.bind(this)}
                 target="_blank"
                 mt="40px"
+              >
+                Зарегистрироваться
+              </Button>
+              <Button
+                display={[
+                  'inline-block',
+                  'inline-block',
+                  'inline-block',
+                  'inline-block',
+                  'inline-block',
+                  'inline-block',
+                  'none',
+                ]}
+                onClick={this.handleAuth.bind(this)}
+                target="_blank"
+                mt="40px"
+                ml="40px"
               >
                 Авторизоваться
               </Button>
@@ -731,8 +1009,8 @@ class IndexPage extends Component {
                     mb="40px"
                     px="10px"
                   >
-                    <BorderedBox width="100%">
-                      <Flex flexDirection="column">
+                    <BorderedBox width="100%" height="340px">
+                      <Flex height="100%" flexDirection="column" justifyContent="space-between">
                         <Text
                           height={[
                             'auto',
@@ -783,14 +1061,37 @@ class IndexPage extends Component {
                                   {lecturer.company}
                                 </Text>
                               )}
-                              <Text
-                                fontSize="16px"
-                                lineHeight="28px"
-                                fontWeight="500"
-                              >
-                                Likes: 1 / Comments: {this.getParticularComments(lecturer)}
-                                <a onClick={this.handleAddComment.bind(this, lecturer)}>+</a>
-                              </Text>
+                                <div hidden={!this.state.mainDatUrl} style={{margin: "10px 0"}}>
+                                  <a
+                                    onClick={this.handleAddLike.bind(
+                                      this,
+                                      lecturer
+                                    )}
+                                    title={this.listLecturerLikes(lecturer)}
+                                  >
+                                    🖤
+                                  </a> {this.getParticularLikes(lecturer)} /{' '}
+                                  <Details>
+                                    <summary>
+                                      <span className="amount">🗨 {this.getParticularComments(lecturer)}</span>
+                                      <span className="close">❌</span>
+                                    </summary>
+                                    {this.renderLecturerComments(lecturer)}
+                                  <Button
+                                    is="button"
+                                    onClick={this.handleAddComment.bind(
+                                      this,
+                                      lecturer
+                                    )}
+                                      ml="-6px"
+                                      mr="-6px"
+                                      mb="-6px"
+                                    >
+                                      Добавить комментарий
+                                    </Button>
+
+                                  </Details>
+                                </div>
                             </Flex>
                           </Box>
                         </Flex>
