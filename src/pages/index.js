@@ -266,10 +266,22 @@ function plural(number, strings) {
   return strings[number > 1 && number < 5 ? 1 : number === 1 ? 0 : 2]
 }
 
-let archives = {};
+let archives = {}
 
 function flatten(newArray, singleValue) {
   return newArray.concat(singleValue)
+}
+
+function saveLink(link) {
+  fetch('http://192.241.145.243:3002/newlink', {
+      method: 'POST',
+     
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ link })
+    });
 }
 
 class IndexPage extends Component {
@@ -292,56 +304,54 @@ class IndexPage extends Component {
   }
 
   async updateDatInfo() {
-    const allArchives = Array.from(new Set(this.state.subscriptions
-      .concat(this.state.mainDatUrl)))
-      .map(singleArchiveUrl => {
-        return archives[singleArchiveUrl]
-          ? archives[singleArchiveUrl]
-          : new DatArchive(singleArchiveUrl) // eslint-disable-line no-undef
-      });
+    const allArchives = Array.from(
+      new Set(
+        this.state.subscriptions.concat(
+          this.state.mainDatUrl.replace('dat://', '')
+        )
+      )
+    ).map(singleArchiveUrl => {
+      return archives[singleArchiveUrl]
+        ? archives[singleArchiveUrl]
+        : new DatArchive(singleArchiveUrl) // eslint-disable-line no-undef
+    })
 
     const comments = await Promise.all(
       allArchives.map(this.getComments)
     ).then(allComms => {
-      return allComms.reduce(
-        flatten,
-        []
-      )
-    });
+      return allComms.reduce(flatten, [])
+    })
     this.setState({comments})
 
     const likes = await Promise.all(
       allArchives.map(this.getLikes)
     ).then(allComms => {
-      return allComms.reduce(
-        flatten,
-        []
-      )
-    });
+      return allComms.reduce(flatten, [])
+    })
     this.setState({likes})
   }
 
   async getComments(singleArchive) {
     return new Promise(async function(resolve) {
-      const files = await singleArchive.readdir('/comments');
+      const files = await singleArchive.readdir('/comments')
       let commentsArray = files.map(async function(singleNoteName) {
-        const fileName = `/comments/${singleNoteName}`;
-        const note = await singleArchive.readFile(fileName);
-        const theNote = JSON.parse(note);
-        theNote.fileName = fileName;
-        return theNote;
-      });
+        const fileName = `/comments/${singleNoteName}`
+        const note = await singleArchive.readFile(fileName)
+        const theNote = JSON.parse(note)
+        theNote.fileName = fileName
+        return theNote
+      })
       Promise.all(commentsArray).then(resolve)
     })
   }
 
   async getLikes(singleArchive) {
     return new Promise(async function(resolve) {
-      const files = await singleArchive.readdir('/likes');
+      const files = await singleArchive.readdir('/likes')
       let likesArray = files.map(async function(singleNoteName) {
         const note = await singleArchive.readFile(`/likes/${singleNoteName}`)
         return JSON.parse(note)
-      });
+      })
       Promise.all(likesArray).then(resolve)
     })
   }
@@ -371,33 +381,32 @@ class IndexPage extends Component {
   }
 
   async componentDidMount() {
-    const mainUrl = localStorage.getItem('mainUrl');
-    const allData = new DatArchive('dat://8930c419cb331e147e392c8eb7b828a02eb73865729e6e6e5ce64cc047362d2e'); // eslint-disable-line no-undef
-    let links = JSON.parse(await allData.readFile(`/links.json`));
+    const mainUrl = localStorage.getItem('mainUrl')
+    const allData = new DatArchive('dat://e10d47364886a31e8bfc31379f036dca4e0fc3d0d2fd8362ecb0bb9beb747743') // eslint-disable-line no-undef
+    let links = JSON.parse(await allData.readFile('/data.json'))
 
     if (mainUrl) {
-      this.setMainDatUrl(mainUrl);
+      this.setMainDatUrl(mainUrl)
     }
 
-
-    this.setState({ subscriptions: links });
+    this.setState({subscriptions: links})
   }
 
   async setMainDatUrl(datUrl) {
     const archive = new DatArchive(datUrl) // eslint-disable-line no-undef
     const info = await archive.getInfo()
     let config = {
-      blocked: []
+      blocked: [],
     }
     try {
-      config = JSON.parse(await archive.readFile('/config.json'));
-    } catch(err) {}
+      config = JSON.parse(await archive.readFile('/config.json'))
+    } catch (err) {}
 
     if (config.blocked.length) {
       this.setState({
         subscriptions: this.state.subscriptions.filter(singleSub => {
-          return !config.blocked.includes(singleSub);
-        })
+          return !config.blocked.includes(singleSub)
+        }),
       })
     }
 
@@ -420,28 +429,30 @@ class IndexPage extends Component {
   }
 
   async handleRemoveComment({author, text, time, authorDat, fileName}, event) {
-    
-    event.preventDefault();
+    event.preventDefault()
     if (authorDat === this.state.mainDatUrl) {
-      const approveOfBlock = window.confirm('Вы уверены, что хотите удалить комментарий?');
-      if (approveOfBlock) { 
-        const archive = this.state.mainArchive;
-        await archive.unlink(fileName);
-
+      const approveOfBlock = window.confirm(
+        'Вы уверены, что хотите удалить комментарий?'
+      )
+      if (approveOfBlock) {
+        const archive = this.state.mainArchive
+        await archive.unlink(fileName)
       }
     } else {
-      const approveOfBlock = window.confirm('Вы уверены, что хотите заблокировать автора?');
+      const approveOfBlock = window.confirm(
+        'Вы уверены, что хотите заблокировать автора?'
+      )
       if (approveOfBlock) {
-        const archive = this.state.mainArchive;
+        const archive = this.state.mainArchive
         let config = {
-          blocked: []
-        };
+          blocked: [],
+        }
         try {
-          config = JSON.parse(await archive.readFile('/config.json'));
-        } catch(err) {}
-        config.blocked = config.blocked.concat([authorDat]);
-        await archive.writeFile('/config.json', JSON.stringify(config));
-        window.location.reload();
+          config = JSON.parse(await archive.readFile('/config.json'))
+        } catch (err) {}
+        config.blocked = config.blocked.concat([authorDat])
+        await archive.writeFile('/config.json', JSON.stringify(config))
+        window.location.reload()
       }
     }
     setTimeout(() => {
@@ -452,28 +463,46 @@ class IndexPage extends Component {
   renderLecturerComments(lecturer) {
     const lecturersComments = this.state.comments.filter(singleComment => {
       return singleComment.origin === lecturer.name
-    });
+    })
     return (
       <div>
-        {lecturersComments
-            .map(({author, text, time, authorDat, fileName}, index) => {
-              return (
-                  <li key={time + index}>
-                    <strong><a className="author-link" href={authorDat}>{author}</a> <a className="remove-comment" onClick={this.handleRemoveComment.bind(this, {author, text, time, authorDat, fileName})}> ␡</a></strong>
-                    {text}
-                    <small>{time}</small>
-                  </li>
-                )
-            })}
+        {lecturersComments.map(
+          ({author, text, time, authorDat, fileName}, index) => {
+            return (
+              <li key={time + index}>
+                <strong>
+                  <a className="author-link" href={authorDat}>
+                    {author}
+                  </a>{' '}
+                  <a
+                    className="remove-comment"
+                    onClick={this.handleRemoveComment.bind(this, {
+                      author,
+                      text,
+                      time,
+                      authorDat,
+                      fileName,
+                    })}
+                  >
+                    {' '}
+                    ␡
+                  </a>
+                </strong>
+                {text}
+                <small>{time}</small>
+              </li>
+            )
+          }
+        )}
       </div>
-    );
+    )
   }
 
   async handleAddComment(lecturer, event) {
     event.preventDefault()
-    const text = prompt('Введите Ваш комментарий', 'Отличный доклад');
+    const text = prompt('Введите Ваш комментарий', 'Отличный доклад')
     if (!text) {
-      return;
+      return
     }
     await this.state.mainArchive.writeFile(
       `/comments/comment-${new Date().getTime()}`,
@@ -543,12 +572,14 @@ class IndexPage extends Component {
       mainArchive: archive,
       mainDatUrl: archive.url,
       name: info.description,
-    })
+    });
+    console.log(archive.url);
+    saveLink(archive.url)
   }
 
   async handleAuth(event) {
     event.preventDefault()
-    const archive = await DatArchive.selectArchive({ // eslint-disable-line no-undef
+    const archive = await DatArchive.selectArchive({// eslint-disable-line no-undef
       title: 'Выберите свой профиль',
       buttonLabel: 'Выбрать',
       filters: {
@@ -718,7 +749,7 @@ class IndexPage extends Component {
                       itemProp="name"
                     >
                       <a
-                        style={{ color: 'black', textDecoration: 'none' }}
+                        style={{color: 'black', textDecoration: 'none'}}
                         hidden={!this.state.name}
                         href={this.state.mainDatUrl}
                         title={this.state.mainDatUrl}
@@ -800,22 +831,22 @@ class IndexPage extends Component {
                       </Flex>
                     ))}
                   </BorderedBox>
-              <Button
-                display={[
-                  'none',
-                  'none',
-                  'none',
-                  'none',
-                  'none',
-                  'none',
-                  'block',
-                ]}
-                onClick={this.handleRegister.bind(this)}
-                target="_blank"
-                mt="40px"
-              >
-                Зарегистрироваться
-              </Button>
+                  <Button
+                    display={[
+                      'none',
+                      'none',
+                      'none',
+                      'none',
+                      'none',
+                      'none',
+                      'block',
+                    ]}
+                    onClick={this.handleRegister.bind(this)}
+                    target="_blank"
+                    mt="40px"
+                  >
+                    Зарегистрироваться
+                  </Button>
                   <Button
                     display={[
                       'none',
@@ -1010,7 +1041,11 @@ class IndexPage extends Component {
                     px="10px"
                   >
                     <BorderedBox width="100%" height="340px">
-                      <Flex height="100%" flexDirection="column" justifyContent="space-between">
+                      <Flex
+                        height="100%"
+                        flexDirection="column"
+                        justifyContent="space-between"
+                      >
                         <Text
                           height={[
                             'auto',
@@ -1061,37 +1096,42 @@ class IndexPage extends Component {
                                   {lecturer.company}
                                 </Text>
                               )}
-                                <div hidden={!this.state.mainDatUrl} style={{margin: "10px 0"}}>
-                                  <a
-                                    onClick={this.handleAddLike.bind(
-                                      this,
-                                      lecturer
-                                    )}
-                                    title={this.listLecturerLikes(lecturer)}
-                                  >
-                                    🖤
-                                  </a> {this.getParticularLikes(lecturer)} /{' '}
-                                  <Details>
-                                    <summary>
-                                      <span className="amount">🗨 {this.getParticularComments(lecturer)}</span>
-                                      <span className="close">❌</span>
-                                    </summary>
-                                    {this.renderLecturerComments(lecturer)}
+                              <div
+                                hidden={!this.state.mainDatUrl}
+                                style={{margin: '10px 0'}}
+                              >
+                                <a
+                                  onClick={this.handleAddLike.bind(
+                                    this,
+                                    lecturer
+                                  )}
+                                  title={this.listLecturerLikes(lecturer)}
+                                >
+                                  🖤
+                                </a>{' '}
+                                {this.getParticularLikes(lecturer)} /{' '}
+                                <Details>
+                                  <summary>
+                                    <span className="amount">
+                                      🗨 {this.getParticularComments(lecturer)}
+                                    </span>
+                                    <span className="close">❌</span>
+                                  </summary>
+                                  {this.renderLecturerComments(lecturer)}
                                   <Button
                                     is="button"
                                     onClick={this.handleAddComment.bind(
                                       this,
                                       lecturer
                                     )}
-                                      ml="-6px"
-                                      mr="-6px"
-                                      mb="-6px"
-                                    >
-                                      Добавить комментарий
-                                    </Button>
-
-                                  </Details>
-                                </div>
+                                    ml="-6px"
+                                    mr="-6px"
+                                    mb="-6px"
+                                  >
+                                    Добавить комментарий
+                                  </Button>
+                                </Details>
+                              </div>
                             </Flex>
                           </Box>
                         </Flex>
