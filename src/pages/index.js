@@ -450,8 +450,8 @@ class IndexPage extends Component {
         try {
           config = JSON.parse(await archive.readFile('/config.json'))
         } catch (err) {}
-        config.blocked = config.blocked.concat([authorDat])
-        await archive.writeFile('/config.json', JSON.stringify(config))
+        config.blocked = Array.from(new Set(config.blocked.concat([ authorDat.replace('dat://', '') ])));
+        await archive.writeFile('/config.json', JSON.stringify(config));
         window.location.reload()
       }
     }
@@ -831,38 +831,41 @@ class IndexPage extends Component {
                       </Flex>
                     ))}
                   </BorderedBox>
-                  <Button
-                    display={[
-                      'none',
-                      'none',
-                      'none',
-                      'none',
-                      'none',
-                      'none',
-                      'block',
-                    ]}
-                    onClick={this.handleRegister.bind(this)}
-                    target="_blank"
-                    mt="40px"
-                  >
-                    Зарегистрироваться
-                  </Button>
-                  <Button
-                    display={[
-                      'none',
-                      'none',
-                      'none',
-                      'none',
-                      'none',
-                      'none',
-                      'block',
-                    ]}
-                    onClick={this.handleAuth.bind(this)}
-                    target="_blank"
-                    mt="80px"
-                  >
-                    Авторизоваться
-                  </Button>
+                  <Flex>
+                    <Button
+                      display={[
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        this.state.mainDatUrl ? 'none' : 'block',
+                      ]}
+                      onClick={this.handleRegister.bind(this)}
+                      target="_blank"
+                      mt="80px"
+                    >
+                      Зарегистрироваться
+                    </Button>
+                    <Button
+                      display={[
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        'none',
+                        'block',
+                      ]}
+                      onClick={this.handleAuth.bind(this)}
+                      target="_blank"
+                      mt="80px"
+                      ml="20px"
+                    >
+                      {this.state.mainDatUrl ? 'Сменить пользователя' :'Авторизоваться'}
+                    </Button>
+                  </Flex>
                 </Flex>
               </Flex>
               <BorderedBox p="10px 20px" mt="40px">
@@ -935,39 +938,41 @@ class IndexPage extends Component {
                   ))}
                 </Flex>
               </BorderedBox>
-              <Button
-                display={[
-                  'inline-block',
-                  'inline-block',
-                  'inline-block',
-                  'inline-block',
-                  'inline-block',
-                  'inline-block',
-                  'none',
-                ]}
-                onClick={this.handleRegister.bind(this)}
-                target="_blank"
-                mt="40px"
-              >
-                Зарегистрироваться
-              </Button>
-              <Button
-                display={[
-                  'inline-block',
-                  'inline-block',
-                  'inline-block',
-                  'inline-block',
-                  'inline-block',
-                  'inline-block',
-                  'none',
-                ]}
-                onClick={this.handleAuth.bind(this)}
-                target="_blank"
-                mt="40px"
-                ml="40px"
-              >
-                Авторизоваться
-              </Button>
+              <Flex>
+                <Button
+                  display={[
+                    this.state.mainDatUrl ? 'none' : 'inline-block',
+                    this.state.mainDatUrl ? 'none' : 'inline-block',
+                    this.state.mainDatUrl ? 'none' : 'inline-block',
+                    this.state.mainDatUrl ? 'none' : 'inline-block',
+                    this.state.mainDatUrl ? 'none' : 'inline-block',
+                    this.state.mainDatUrl ? 'none' : 'inline-block',
+                    'none'
+                  ]}
+                  onClick={this.handleRegister.bind(this)}
+                  target="_blank"
+                  mt="40px"
+                >
+                  Зарегистрироваться
+                </Button>
+                <Button
+                  display={[
+                    'inline-block',
+                    'inline-block',
+                    'inline-block',
+                    'inline-block',
+                    'inline-block',
+                    'inline-block',
+                    'none',
+                  ]}
+                  onClick={this.handleAuth.bind(this)}
+                  target="_blank"
+                  mt="40px"
+                  ml={this.state.mainDatUrl ? '0px' : '40px'}
+                >
+                  {this.state.mainDatUrl ? 'Сменить пользователя' :'Авторизоваться'}
+                </Button>
+              </Flex>
             </Container>
             <Container is="section" id="topics">
               <Flex
@@ -1011,6 +1016,14 @@ class IndexPage extends Component {
                     </Heading>
                   </Shadow>
                 </Box>
+                <Button
+                  is='a'
+                  href='https://krddevdays.ru/schedule.pdf'
+                  target='_blank'
+                  mt={['20px', '20px', '20px', '20px', '20px', '40px']}
+                >
+                  Расписание
+                </Button>
               </Flex>
               <List
                 justifyContent={[
