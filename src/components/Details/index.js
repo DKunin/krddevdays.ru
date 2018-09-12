@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import Flex from '../Flex'
 
 const Details = styled.details`
     display: inline;

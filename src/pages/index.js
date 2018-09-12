@@ -26,7 +26,7 @@ import ImageLink from '../components/ImageLink'
 import {FirestoreProvider, FirestoreCollection} from 'react-firestore'
 import {firebase} from '../firebase'
 import PropTypes from 'prop-types'
-
+const DHT = 'dat://e10d47364886a31e8bfc31379f036dca4e0fc3d0d2fd8362ecb0bb9beb747743';
 const Shadow = styled(tag)`
   position: relative;
   min-height: ${props =>
@@ -382,14 +382,15 @@ class IndexPage extends Component {
 
   async componentDidMount() {
     const mainUrl = localStorage.getItem('mainUrl')
-    const allData = new DatArchive('dat://e10d47364886a31e8bfc31379f036dca4e0fc3d0d2fd8362ecb0bb9beb747743') // eslint-disable-line no-undef
+    const allData = new DatArchive(DHT) // eslint-disable-line no-undef
     let links = JSON.parse(await allData.readFile('/data.json'))
+    let info = await allData.getInfo()
 
     if (mainUrl) {
       this.setMainDatUrl(mainUrl)
     }
 
-    this.setState({subscriptions: links})
+    this.setState({subscriptions: links })
   }
 
   async setMainDatUrl(datUrl) {
