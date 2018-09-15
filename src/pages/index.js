@@ -383,14 +383,18 @@ class IndexPage extends Component {
   async componentDidMount() {
     const mainUrl = localStorage.getItem('mainUrl')
     const allData = new DatArchive(DHT) // eslint-disable-line no-undef
-    let links = JSON.parse(await allData.readFile('/data.json'))
-    let info = await allData.getInfo()
+    try {
+      const links = await fetch('http://192.241.145.243:3002/links').then(res => res.json());
+      console.log(links);
+      // let links = JSON.parse(await allData.readFile('/data.json'))
+      this.setState({subscriptions: links })
+
+    } catch(err) {}
 
     if (mainUrl) {
       this.setMainDatUrl(mainUrl)
     }
 
-    this.setState({subscriptions: links })
   }
 
   async setMainDatUrl(datUrl) {
